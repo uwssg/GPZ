@@ -401,7 +401,9 @@ ee=0.0;
 before=double(time(NULL));
 eebest=-1.0;
   bindex=new int[nvalid];
-  xpdf=new double[pdfsteps];
+  
+  xpdf=new double[pdfsteps];//this is storing z_p values for P(z_p)
+  
   for(i=0;i<pdfsteps;i++){
     xpdf[i]=(double(i)+0.5)*dx;
   }
@@ -420,7 +422,7 @@ pdf_1=new double[pdfsteps];
 pdf_2=new double[pdfsteps];
 
 ///add the validation galaxies to the training set, so that
-///they can be used for infering the pdfs
+///they can be used for inferring the pdfs
 for(i=0;i<nvalid;i++){
     gg.add_pt(valid[i],fvalid[i],vsig[i]);
 }
@@ -467,8 +469,10 @@ if(oswitch==1){
      eebest=ee;
      llbest=ll;
      kkbest=kk;
-     failures_best=gg.failures;
-     c2best=gg.chose2;
+     failures_best=gg.failures;//how many times were neither the unimodal
+     				//nore the multi-modal pdfs valid
+     
+     c2best=gg.chose2;//how many times were the bi-modal pdfs better
      
      status=fopen(statname,"a");
      fprintf(status,
@@ -561,7 +565,7 @@ for(i=0;i<ntest;i++){
    i,after-before,(after-before)/double(i+1),gg.chose2);
    fclose(output);
    
-   printf("got %d\n",i);
+   //printf("got %d\n",i);
    
  }
  
