@@ -1,0 +1,34 @@
+#dim 6
+#filter 4.1
+#samples 20000
+#maxrank 1000
+#kk 200
+#thinby 10
+#rconverge 0.1
+
+#prior
+#dof
+
+
+#test ../gpznoise/data/fluxsim_25pct_test_set.sav
+#train ../gpznoise/data/fluxsim_25pct_training_set.sav
+#valid ../gpznoise/data/fluxsim_25pct_validation_set.sav
+
+#output results/wdesert/fluxsim_25pctmufold_output.sav
+
+#status results/wdesert/fluxsim_25pctmufold_status.sav
+#mix 8.0
+
+#normz
+#normbyvar
+#dopdf
+
+
+!#llrange -3.0 3.0 12.0
+!#kkrange 30 130 20
+
+!#hyperparams 0 110
+#hyperparams 0 90
+
+#kp 0.01
+
