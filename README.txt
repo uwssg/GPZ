@@ -48,7 +48,7 @@ our paper)
 
 mu1 -- the peak redshift of the unimodal model
 
-sig1 -- the variance of the
+sig1 -- the variance of the unimodal model
 
 chi2 -- the -2 ln[P(model | data)] for the bi-modal model (see equation 22 of
 our paper)
@@ -69,7 +69,7 @@ ntot -- the total number of nearest neighbor galaxies used (ntot=na+nb)
 
 to turn these parameters into P(z_p) use
 
-P(z_p)=exp(-0.5*chi1)[exp(-0.5*(z_p-mu1)^2/sig1]/sqrt(sig1) +
+P(z_p)=exp(-0.5*chi1)*exp[-0.5*(z_p-mu1)^2/sig1]/sqrt(sig1) +
        exp(-0.5*chi2){ (na/ntot)*exp[-0.5*(z_p-mu2a)^2/sig2a]/sqrt(sig2a) +
                        (nb/ntot)*exp[-0.5*(z_p-mu2b)^2/sig2b]/sqrt(sig2b)}
 
@@ -77,11 +77,12 @@ as presented above, P(z_p) is not normalized
 
 ////////////////////// The code ///////////////////
 
-goto_tools.cpp is just a code containing some generically useful subroutines
+goto_tools.cpp is just a file containing some generically useful subroutines
 (mostly a sorting subroutine)
 
-eigen_wrapper.cpp wraps the linear algebra codes from LAPACK into C++ (we only
-use the invert_lapack() subroutine to do matrix inversion)
+eigen_wrapper.cpp wraps the linear algebra codes from LAPACK into C++ (we
+use the invert_lapack() subroutine to do matrix inversion and the
+get_determinant() subroutine to get matrix determinants)
 
 gaussian_process_driver.cpp actually does the heavy lifting of the Gaussian
 Process.  The subroutine get_pdf() solves for P(z_p)
