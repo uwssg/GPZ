@@ -14,21 +14,14 @@ eigen_wrapper.o: eigen_wrapper.cpp eigen_wrapper.h goto_tools.o
 	$(gg) -c eigen_wrapper.cpp goto_tools.o \
 	$(LAPACK) $(BLAS) $(FORTRAN)
 
-gaussian_process_noisy.o: gaussian_process_noisy.h gaussian_process_noisy.cpp \
+gaussian_process_driver.o: gaussian_process_driver.h \
+gaussian_process_driver.cpp \
 goto_tools.o eigen_wrapper.o kd.o goto_tools.o
-	$(gg) -c gaussian_process_noisy.cpp goto_tools.o eigen_wrapper.o kd.o \
+	$(gg) -c gaussian_process_driver.cpp goto_tools.o eigen_wrapper.o kd.o \
 	$(LAPACK) $(ARPACK) $(BLAS) $(FORTRAN)
 	
 
-gpnoise: gpnoisy_test.cpp gaussian_process_noisy.o
-	$(gg) -o gpnoise gpnoisy_test.cpp goto_tools.o \
-	kd.o eigen_wrapper.o gaussian_process_noisy.o \
+gpz: gpz_code.cpp gaussian_process_driver.o
+	$(gg) -o gpz gpz_code.cpp goto_tools.o \
+	kd.o eigen_wrapper.o gaussian_process_driver.o \
         $(LAPACK) $(BLAS) $(FORTRAN)
-
-gpz_mufold: gpz_code.cpp gaussian_process_noisy.o
-	$(gg) -o gpz_mufold gpz_code.cpp goto_tools.o \
-	kd.o eigen_wrapper.o gaussian_process_noisy.o \
-        $(LAPACK) $(BLAS) $(FORTRAN)
-
-testkd: test_kdtree.cpp kd.o goto_tools.o
-	$(gg) -o testkd test_kdtree.cpp goto_tools.o kd.o

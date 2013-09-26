@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <float.h>
 #include "eigen_wrapper.h"
-#include "../goto_tools.h"
+#include "goto_tools.h"
 
 extern "C" void dgetrf_(int*,int*,double*,int*,int*,int*);
 

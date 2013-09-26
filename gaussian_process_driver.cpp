@@ -1,4 +1,4 @@
-#include "gaussian_process_noisy.h"
+#include "gaussian_process_driver.h"
 #include "goto_tools.h"
 #include "eigen_wrapper.h"
 #include <stdio.h>

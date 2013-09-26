@@ -4,21 +4,6 @@
 #include <time.h>
 #include "goto_tools.h"
 
-double normal_deviate(Ran *chaos, double mu, double sig){
- 
- int i;
- double x1,x2,y1,y2;
- 
- x1=chaos->doub();
- x2=chaos->doub();
- 
- y1=sqrt(-2.0*log(x1))*cos(2.0*pi*x2);
- y2=sqrt(-2.0*log(x1))*sin(2.0*pi*x2);
- 
- 
- return mu+y1*sig;
- 
-}
 
 int compare_char(char *s1, char *s2){
  //are two character strings the same?

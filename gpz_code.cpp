@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
-#include "gaussian_process_noisy.h"
+#include "gaussian_process_driver.h"
 
 double lsquared,ltotheone;
 
