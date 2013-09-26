@@ -252,3 +252,47 @@ void sort(double *m, int *indices, int el){
 	}
 }
 
+void check_sort(double *sorted, double *unsorted, int *inn, int *inn_0, int n){
+    int i,j;
+    double diff;
+    
+    for(i=0;i<n;i++){
+        for(j=0;j<n && inn_0[j]!=inn[i];j++);
+	
+        diff=fabs(sorted[i]-unsorted[j]);
+	if(unsorted[inn[i]]!=0.0){
+	    diff=diff/fabs(unsorted[inn[i]]);
+	}
+	if(diff>1.0e-10){
+	    printf("WARNING sort failed to associate\n");
+	    exit(1);
+	}
+    }
+    
+    for(i=1;i<n;i++){
+        if(sorted[i]<sorted[i-1]){
+	    printf("WARNING sort failed to sort\n");
+	    exit(1);
+	}
+    }
+    
+    
+}
+
+
+void sort_and_check(double *list, double *sorted, int *inn, int n){
+    int i,*inn_0;
+   
+    inn_0=new int[n];
+    for(i=0;i<n;i++){
+        sorted[i]=list[i];
+	inn_0[i]=inn[i];
+    }
+    sort(sorted,inn,n);
+   // printf("sorted\n");
+    check_sort(sorted,list,inn,inn_0,n);
+   // printf("checked\n");
+    
+    delete [] inn_0;
+}
+

@@ -380,15 +380,16 @@ for(i=0;i<nvalid;i++){
   for(j=0;j<dim;j++)vsig[i][j]=vsig[i][j]*vsig[i][j];
 }
 
+for(i=0;statname[i]!=0;i++){
+    gg.statname[i]=statname[i];
+}
+gg.statname[i]=0;
 gg.covariogram=covar;
 gg.dim=dim;
 gg.kk=kset;
 gg.initialize(ntrain,train,ftrain,trsig);
 
-for(i=0;statname[i]!=0;i++){
-    gg.statname[i]=statname[i];
-}
-gg.statname[i]=0;
+
 
 //this is the "nugget" in the Gaussian Process' covariogram;
 //we are just setting it to a small number here;

@@ -14,5 +14,6 @@ double interpolate(double*,double*,double,int);
 
 void sort(double*,int*,int);
 
+void check_sort(double*, double*, int*, int*, int);
 
-
+void sort_and_check(double*,double*,int*,int);

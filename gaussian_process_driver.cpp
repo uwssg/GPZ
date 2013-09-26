@@ -109,6 +109,10 @@ void gpnoisy::initialize(int pin,double **seed, double *seedfn,
       mins[i]=0.0;
       maxs[i]=1.0;
   }
+  //these are not actual maximum and minimum values;
+  //they are set to 0 and 1 so that the distance function
+  //in kd_tree actually returns the Euclidean distance without
+  //any special normalizations
   
   room=pin;
   fn=new double[pin];
@@ -120,6 +124,7 @@ void gpnoisy::initialize(int pin,double **seed, double *seedfn,
     for(j=0;j<dim;j++)noise[i][j]=seednoise[i][j];
   }
   
+  //printf("statname is %s\n",statname);
   
   output=fopen(statname,"a");
   fprintf(output,"about to build tree\n");
@@ -131,7 +136,10 @@ void gpnoisy::initialize(int pin,double **seed, double *seedfn,
   fprintf(output,"tree diagnostic %d\n",kptr->diagnostic);
   fclose(output);
   
-  if(kptr->diagnostic!=1)exit(1);
+  if(kptr->diagnostic!=1){
+      printf("WARNING kd_tree improperly built\n");
+      exit(1);
+  }
   
   pts=kptr->pts;
   
@@ -302,7 +310,9 @@ void gpnoisy::get_pdf(
 	for(i=0;i<kk;i++){
 	    if(dd[i]/xx1<1.0e-10 || isnan(dd[i]/xx1)){
 	        output=fopen(statname,"a");
-	        fprintf(output,"BE AWARE dd%d = %e -- %e\n",i,dd[i],xx1);
+	        fprintf(output,"BE AWARE\n");
+		fprintf(output,"you seem to be validating using galaxies as their own neigbors\n");
+		fprintf(output,"dd%d = %e -- %e\n\n",i,dd[i],xx1);
 	        fclose(output);
 	    }
 	}
@@ -335,17 +345,27 @@ void gpnoisy::get_pdf(
     llav=llav/double(kk*(kk-1)/2);
      
  
-    //divide the nearest neighbor galaxies by z;
+    //divide the nearest neighbor galaxies along z;
     //split them so that the sum of the variances
     //in the two sub-populations is minimized
     
+    double *sorted;
+    sorted=new double[kk];
     for(i=0;i<kk;i++){
       tosort[i]=fn[neigh[i]];
     }
-    sort(tosort,neigh,kk);
+    //sort(tosort,neigh,kk);
+    sort_and_check(tosort,sorted,neigh,kk);
+    delete [] sorted;
+    
     double var1,var2;
     k=-1;
     for(i=4;i<kk-4;i++){
+      
+      //testing possible divisions in the sorted population;
+      //'i' represents the number of galaxies in the low-z
+      //sub-population
+      
       xx1=0.0;
       var1=0.0;
       xx2=0.0;
@@ -376,7 +396,7 @@ void gpnoisy::get_pdf(
       
     }//find the best splitting index
     
-    //n[i] is the numbe of galaxies in the ith sub-population
+    //n[i] is the number of galaxies in the ith sub-population
     //s[i] is the starting index of the ith sub-population  
     n[0]=splitdex;
     n[1]=kk-splitdex;
@@ -394,7 +414,7 @@ void gpnoisy::get_pdf(
       ggq[0][i]=covariogram(pt,qnoise,kptr->data[neigh[j]],noise[neigh[j]],llav,dim);
     }
     
-    //ditt for the second subpopulation
+    //ditto for the second subpopulation
     for(i=0;i<n[1];i++){
       j=s[1]+i;
       ggq[1][i]=covariogram(pt,qnoise,kptr->data[neigh[j]],noise[neigh[j]],llav,dim);
@@ -543,7 +563,7 @@ void gpnoisy::get_pdf(
     +lnchoose(kk,n[0]);
     
     //this is the chi^2 associated with the likelihood of the
-    //bi-modal model given the data (i.e. it is -2*ln(likelihood))
+    //bi-modal model given the data (see equation 22 of our paper)
     chi2=double(kk)+
     double(n[0])*log(sp1)+double(n[1])*log(sp2)+
     log(gg1det)+log(gg2det)+
@@ -556,7 +576,7 @@ void gpnoisy::get_pdf(
       deltab=fabs(zbar[1]-zbar[0]);
       
       //deltaz2 is the squared width of the prior
-      //prio_width is a user-set normalization factor, if you want
+      //prior_width is a user-set normalization factor, if you want
       if(sp1>sp2){
         deltaz2=sp1*prior_width;
 	ideltaz2=ik0;
@@ -712,7 +732,7 @@ void gpnoisy::get_pdf(
     
 
     //chi1 is the chi^2 associated with the likelihood of the single-mode
-    //model given the data
+    //model given the data (again, see equation 22)
     chi1=double(kk)+double(kk)*log(sp_1)+log(gg_1det)+double(kk)*log(2.0*pi);
    
     //flat prior on the 1-mode model 
