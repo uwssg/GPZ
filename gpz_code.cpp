@@ -82,7 +82,7 @@ double before,after,pdftime,entropy;
 double mu,sig,fbar,mode,pmode;
 
 double *xpdf,*pdf,*pdf_1,*pdf_2,pdfsig;
-double tempscatter,*musave,*mean,*var,dx;
+double *mean,*var,dx;
 
 double llmin,llmax,llstep;
 
@@ -390,6 +390,9 @@ for(i=0;statname[i]!=0;i++){
 }
 gg.statname[i]=0;
 
+//this is the "nugget" in the Gaussian Process' covariogram;
+//we are just setting it to a small number here;
+//it helps ensure that the covariogram is non-singular
 gg.set_lambda(1.0e-6);
 
 
