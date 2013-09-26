@@ -534,7 +534,7 @@ k=0;
 pdftime=0.0;
 before=double(time(NULL));
 output=fopen(outname,"w");
-fprintf(output,"# chi1 mu1 sig1 chi2 mu2a sig2a na mu2b sig2 nb ntot");
+fprintf(output,"# chi1 mu1 sig1 chi2 mu2a sig2a na mu2b sig2b nb ntot");
 fprintf(output,"\n");
 fclose(output);
 
@@ -552,7 +552,7 @@ for(i=0;i<ntest;i++){
 
 
  output=fopen(outname,"a");
- //fprintf(output,"# chi1 mu1 sig1 chi2 mu2a sig2a na mu2b sig2 nb ntot");
+ //fprintf(output,"# chi1 mu1 sig1 chi2 mu2a sig2a na mu2b sig2b nb ntot");
  fprintf(output,"%e %e %e %e %e %e %e %e %e %e %e\n",
  chi1,mu1,sig1,
  chi2,mu2a,sig2a,na,

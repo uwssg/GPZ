@@ -148,7 +148,8 @@ double interpolate(double *x, double *y, double target, int el){
 }
 
 
-//the routines below are just the merge sort routine from Numerical Recipes;
+//the routines below are just the merge sort algorithm from Numerical Recipes;
+//(2nd edition); Press, Teukolsky, Vetterling, Flannery 1992
 
 int scanner(double *m, int *indices, int index, int el){
 /*this will take the matrix m and put everything in it with value
