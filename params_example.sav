@@ -1,10 +1,5 @@
 #dim 6
-#filter 4.1
-#samples 20000
-#maxrank 1000
-#kk 200
-#thinby 10
-#rconverge 0.1
+
 #prior
 #dof
 
@@ -15,7 +10,6 @@
 #output results/test_output.sav
 
 #status results/test_status.sav
-#mix 8.0
 
 #normz
 #normbyvar
