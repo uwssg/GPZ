@@ -5,30 +5,26 @@
 #kk 200
 #thinby 10
 #rconverge 0.1
-
 #prior
 #dof
 
+#test /Users/noldor/physics/gaussianprocess/gpQR/data/flux_simulated/f25pct/f25pct_10_test_set.sav
+#train /Users/noldor/physics/gaussianprocess/gpQR/data/flux_simulated/f25pct/f25pct_10_training_set.sav
+#valid /Users/noldor/physics/gaussianprocess/gpQR/data/flux_simulated/f25pct/f25pct_10_validation_set.sav
 
-#test ../gpznoise/data/fluxsim_25pct_test_set.sav
-#train ../gpznoise/data/fluxsim_25pct_training_set.sav
-#valid ../gpznoise/data/fluxsim_25pct_validation_set.sav
+#output results/test_output.sav
 
-#output results/wdesert/fluxsim_25pctmufold_output.sav
-
-#status results/wdesert/fluxsim_25pctmufold_status.sav
+#status results/test_status.sav
 #mix 8.0
 
 #normz
 #normbyvar
 #dopdf
 
-
 !#llrange -3.0 3.0 12.0
 !#kkrange 30 130 20
 
-!#hyperparams 0 110
-#hyperparams 0 90
+#hyperparams 0 70
 
-#kp 0.01
+
 
