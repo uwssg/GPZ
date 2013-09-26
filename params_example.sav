@@ -1,24 +1,69 @@
-#dim 6
+This is the example parameter file.
+The file should be formatted as
+#keyword value
 
-#prior
-#dof
+GPZ knows it is reading a keyword because the keyword is preceded by a #
+Placing any character before the # will comment out that keyword
 
+I have commented the keywords below, and also included some unused keywords,
+in case you want to run with different options
+
+BE VERY CAREFUL not to include #(valid keyword) in your comments, or else GPZ
+might accidentally think you are trying to give it a command
+
+#dim 6 -- the number of photometric filters
+
+#prior -- including this keyword will impose the \delta z prior on the bi-modal
+          model (see equation 19 in our paper)
+
+#dof -- including this keyword will divide chi^2_model by the number of neighbor
+        galaxies when choosing between models (see equation 22 of our paper)
+
+#normbyvar -- including this keyword will tell GPZ to renormalize your input
+              data so that the data from each filter has comparable variance
+	      over the training set
+	      
+the keyword below tells GPZ where to find the list of unknown 'test' galaxies
 #test /Users/noldor/physics/gaussianprocess/gpQR/data/flux_simulated/f25pct/f25pct_10_test_set.sav
+
+the keyword below tells GPZ where to find the training set of galaxies with
+known spectroscopic redshifts
 #train /Users/noldor/physics/gaussianprocess/gpQR/data/flux_simulated/f25pct/f25pct_10_training_set.sav
+
+the keyword below tells GPZ where to find the validation set of galaxies with
+known spectroscopic redshifts
 #valid /Users/noldor/physics/gaussianprocess/gpQR/data/flux_simulated/f25pct/f25pct_10_validation_set.sav
 
-#output results/test_output.sav
 
-#status results/test_status.sav
+#output results/test_output.sav -- where to put the output
 
-#normz
-#normbyvar
-#dopdf
-
-!#llrange -3.0 3.0 12.0
-!#kkrange 30 130 20
-
-#hyperparams 0 70
+#status results/test_status.sav -- the status file records GPZ's progress as it
+goes so that, if the code crashes, you can (hopefully) tell where and maybe even
+why.  If you do not specify a name, GPZ defaults to "generic_status_file.sav"
 
 
+#hyperparams 0 70 
+there are two hyperparameters that must be set: the l^2 length scale in the
+covariogram (see equation 8 of our paper), and the number of nearest neighbor
+galaxies used to generate P(z_p).  If you want to set them by hand, you use this
+keyword.  The order of the hyperparameters is the log_10 of l^2 followed by the
+number of nearest neighbors
 
+if you would rather GPZ use the validation galaxies to optimize these parameters
+(using a simple grid search) you can use the keywords below:
+
+!#llrange -3.0 3.0 12.0 -- the minimum value of log_10(l^2), the maximum value
+                           of log_10(l^2), the number of steps to take between
+			   them when doing the grid search
+
+!#kkrange 30 130 20 -- the minimum number of nearest neighbors, the maximum
+                        number of nearest neighbors, the size of the steps to
+			take between them (in this configuration, GPZ will step
+			by 20 in the number of nearest neigbhors)
+
+
+!#only1 -- only allow GPZ to return unimodal P(z_p)
+!#prior_width -- a multiplicative factor multiplying K_max in the prior  on the
+                 bi-modal model (see equation 19).  This defaults to 1
+
+!#zmax -- set the maximum allowed value of z_p in P(z_p).  Defaults to 5.

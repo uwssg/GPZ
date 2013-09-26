@@ -100,6 +100,8 @@ normbyvar=0;
 
 ndll=10.0;
 
+sprintf(statname,"generic_status_file.sav");
+
 ///floor and lnfloor set the minimum possible
 ///value of ln[P(truth)] with optimizing
 ///hyper parameters
