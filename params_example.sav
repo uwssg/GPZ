@@ -52,11 +52,11 @@ number of nearest neighbors
 if you would rather GPZ use the validation galaxies to optimize these parameters
 (using a simple grid search) you can use the keywords below:
 
-!#llrange -3.0 3.0 12.0 -- the minimum value of log_10(l^2), the maximum value
+!#llrange -2.0 2.0 4.0 -- the minimum value of log_10(l^2), the maximum value
                            of log_10(l^2), the number of steps to take between
 			   them when doing the grid search
 
-!#kkrange 30 130 20 -- the minimum number of nearest neighbors, the maximum
+!#kkrange 30 90 20 -- the minimum number of nearest neighbors, the maximum
                         number of nearest neighbors, the size of the steps to
 			take between them (in this configuration, GPZ will step
 			by 20 in the number of nearest neigbhors)
