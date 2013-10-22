@@ -836,6 +836,7 @@ void gpnoisy::get_pdf(
   if(isnan(chi2))twoisvalid=0;
   if(zbar[1]==zbar[0])twoisvalid=0;
   if(only1==1)twoisvalid=0;
+  if(isinf(chi2) || isinf(det2))twoisvalid=0;
   
   //if oneisvalid==1, it means that the unimodal model is
   //an acceptable alternative
@@ -845,6 +846,7 @@ void gpnoisy::get_pdf(
   if(!(sig2_1>0.0))oneisvalid=0;
   if(isnan(sig2_1))oneisvalid=0;
   if(isnan(chi1))oneisvalid=0;
+  if(isinf(chi1) || isinf(det1))oneisvalid=0;
  
   //find the minimum of the two chi^2 values for purposes
   //of doing the weighted sum of models
